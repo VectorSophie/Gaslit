@@ -26,24 +26,6 @@ function glitchText(node) {
   }
 }
 
-function glitchImages() {
-  document.querySelectorAll("img").forEach(img => {
-    // Only glitch if not already loaded
-    if (!img.complete) {
-      const originalSrc = img.src;
-      const glitchPlaceholder = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxmaWx0ZXIgaWQ9ImdsaXRjaCI+CjxmZVR1cmJ1bGVuY2UgdHlwZT0idHVyYnVsZW5jZSIgYmFzZUZyZXF1ZW5jeT0wLjUiIG51bU9jdGF2ZXM9IjUiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz4KPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAgMCAwIDAgMCAwICAwIDAgMCAwIDAgMCAwIDAgMCAtMSAwIi8+CjwvZmlsdGVyPgo8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZ2xpdGNoKSIgLz4KPC9zdmc+"; // Glitchy placeholder SVG
-
-      img.src = glitchPlaceholder;
-
-      const delay = Math.random() * 2000 + 500;
-
-      setTimeout(() => {
-        img.src = originalSrc;
-      }, delay);
-    }
-  });
-}
-
 function tagGlitchElements() {
   document.querySelectorAll("div, p, button, img, h1, h2, h3, span, a").forEach(el => {
     if (Math.random() < 0.2) {
@@ -73,6 +55,30 @@ function shakeGlitchyElementsOnce() {
   }, 2000);
 }
 
+function glitchImages() {
+  document.querySelectorAll("img").forEach(img => {
+    if (!img.complete) {
+      const originalSrc = img.src;
+      const glitchPlaceholder =
+        "data:image/svg+xml;base64," +
+        btoa(`<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <filter id="glitch">
+                  <feTurbulence type="turbulence" baseFrequency="0.5" numOctaves="5" stitchTiles="stitch"/>
+                  <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+                </filter>
+                <rect width="100%" height="100%" filter="url(#glitch)" fill="black"/>
+              </svg>`);
+
+      img.src = glitchPlaceholder;
+
+      const delay = Math.random() * 2000 + 500;
+      setTimeout(() => {
+        img.src = originalSrc;
+      }, delay);
+    }
+  });
+}
+
 document.body.addEventListener('click', function(event) {
   const target = event.target;
   if (target.classList.contains('glitchy')) {
@@ -91,11 +97,11 @@ document.body.addEventListener('click', function(event) {
   }
 }, true);
 
-
 function startGlitch() {
   glitchText(document.body);
   tagGlitchElements();
-  glitchImages(); 
+  glitchImages();
+
   setInterval(() => glitchText(document.body), 3000);
   setTimeout(shakeGlitchyElementsOnce, Math.random() * 4000 + 1000);
 }
