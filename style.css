@@ -1,11 +1,11 @@
 .glitchy {
   position: relative;
   color: #fff;
-  animation: glitch-flicker 1s infinite;
   text-shadow: 1px 0 red, -1px 0 cyan;
   will-change: transform, opacity;
 }
 
+/* Still needed for JS to trigger later */
 @keyframes glitch-flicker {
   0%, 100% {
     transform: none;
@@ -31,4 +31,8 @@
     transform: translate(1px, 1px) skew(0deg, 0deg);
     opacity: 0.95;
   }
+}
+
+.glitch-active {
+  animation: glitch-flicker 1s ease;
 }
