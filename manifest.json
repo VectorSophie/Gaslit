@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "gaslit",
+  "version": "1.0",
+  "description": "Distort Distort",
+  "permissions": ["activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["style.css"]
+    }
+  ]
+}
